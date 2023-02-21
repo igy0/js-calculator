@@ -15,7 +15,9 @@
     align-self: self-end;
     padding-top:25px;
 }
-
+.button18 {
+    grid-column: 3 / 5;
+}
 /* .button1 {
     grid-column: 1;
     grid-row: 1;
