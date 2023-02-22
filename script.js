@@ -46,18 +46,28 @@ buttons[18].innerText = "=";
 
 //calculation functions
 function add(x, y) {
+    x = +x;
+    y = +y;
     return x + y;
 }
 
 function sub(x, y) {
+    x = +x;
+    y = +y;
+    console.log(x);
+    console.log(y);
     return x - y;
 }
 
 function mult(x, y) {
+    x = +x;
+    y = +y;
     return x * y;
 }
 
 function div(x, y) {
+    x = +x;
+    y = +y;
     return x / y;
 }
 
@@ -80,9 +90,11 @@ function delDisplay() {
 }
 
 function clearDisplay() {
-    display.innerText = "\u00A0"; 
+    // display.innerText = "\u00A0"; 
+    display.innerText = 0;
+    haveSub = false;
 }
-
+ //functionality for 0, AC, C
 buttons[16].addEventListener('click', () => {
     updateDisplay(buttons[16].innerText);
 });
@@ -94,3 +106,65 @@ buttons[0].addEventListener('click', () => {
 buttons[1].addEventListener('click', () => {
     delDisplay();
 });
+
+//functionality for operation buttons
+//add
+let dispValue;
+let operation;
+buttons[3].addEventListener('click', () => {
+    dispValue = display.innerText;
+    clearDisplay();
+    operation = "add";
+});
+
+//sub
+let subber;
+let haveSub = false;
+buttons[7].addEventListener('click', () => {
+    dispValue = display.innerText;
+    clearDisplay();
+    operation = "sub";
+});
+
+//equal
+buttons[18].addEventListener('click', () => {
+    switch(operation) {
+        case "add":
+            const sum = add(dispValue,display.innerText);
+            display.innerText = sum; 
+            break;
+
+        case "sub":
+            //issue is subber is reintialized to innertext everytime
+            if (haveSub) {
+                dispValue = display.innerText;
+                const diff = sub(dispValue,subber);
+                display.innerText = diff;
+                break;
+            } else {
+                subber = display.innerText;  
+                const diff = sub(dispValue,subber);
+                display.innerText = diff;
+                haveSub = true;
+                break;  
+            }
+            
+            
+            // console.log(diff);
+            
+            break;
+
+        case "mult":
+            const mult = add(dispValue,display.innerText);
+            display.innerText = sum; 
+            break;
+
+        case "div":
+            const div = add(dispValue,display.innerText);
+            display.innerText = sum; 
+            break;
+    }
+    
+});
+
+
