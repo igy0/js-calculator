@@ -126,7 +126,15 @@ buttons[7].addEventListener('click', () => {
     operation = "sub";
 });
 
+//mult
+buttons[11].addEventListener('click', () => {
+    dispValue = display.innerText;
+    clearDisplay();
+    operation = "mult";
+});
+
 //equal
+//doesnt work for chained operations yet maybe work into seperate function?
 buttons[18].addEventListener('click', () => {
     switch(operation) {
         case "add":
@@ -148,15 +156,12 @@ buttons[18].addEventListener('click', () => {
                 haveSub = true;
                 break;  
             }
-            
-            
-            // console.log(diff);
-            
-            break;
 
         case "mult":
-            const mult = add(dispValue,display.innerText);
-            display.innerText = sum; 
+            //multiplies by first value not second everytime
+            //use have sub and subber again?
+            const prod = mult(dispValue,display.innerText);
+            display.innerText = prod; 
             break;
 
         case "div":
@@ -167,4 +172,7 @@ buttons[18].addEventListener('click', () => {
     
 });
 
+// function operate() {
+
+// }
 
