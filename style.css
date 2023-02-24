@@ -1,12 +1,20 @@
 body {
     margin-top: 100px;
+    padding:0;
+    background-color: #d6ff79;
+    font-family: andale mono;
 }
 .container {
     display: grid;
-    grid-template-columns:repeat(4,100px);
-    grid-template-rows: 75px repeat(6,100px);
-    width:500px;
+    grid-template-columns:repeat(4,75px);
+    grid-template-rows: 75px repeat(5,75px);
+    width:325px;
     margin:auto;
+    background-color: #3c3c3b;
+    border-radius: 25px;
+    justify-content: center;
+    gap:2px;
+    border: 5px solid black;
 }
 
 .display {
@@ -17,7 +25,40 @@ body {
     border: 1px solid black;
     align-self: self-end;
     padding-top:25px;
+    padding-right: 5px;
+    background-color: #fff2f1;
+    border-radius: 30px 30px 5px 5px;
+    align-self: stretch;
 }
 .button18 {
     grid-column: 3 / 5;
+}
+
+button {
+    border-radius: 25px;
+    background-color: #a09be7;
+    color: #eee;
+    font-weight: 900;
+    font-size: 25px;
+    font-family: andale mono;
+}
+
+button:hover {
+    background-color: #ecfff8;
+    color:#3c3c3b
+}
+
+.button3, .button7, .button11, .button15 {
+    background-color: #5f00ba;
+}
+
+.button18 {
+    background-color: #a2e8dd;
+    color:#3c3c3b;
+    font-size:50px;
+}
+
+.button0, .button1, .button2 {
+    background-color: #b3dec1;
+    color:#3c3c3b
 }
