@@ -73,14 +73,15 @@ function div(x, y) {
 
 //updating display with button presses
 function updateDisplay(x) {
-    if (display.innerText.length < 16) {
-        display.innerText += x;
-    }
-    else {
+    if (nowOp) {
+        display.innerText = x;
+        nowOp = false;
+    } else if (display.innerText.length > 15) {
         alert("Number Limit for Calculator Reached");
         return;
+    } else {
+        display.innerText += x;
     }
-    
 }
 
 function delDisplay() {
@@ -93,6 +94,9 @@ function clearDisplay() {
     // display.innerText = "\u00A0"; 
     display.innerText = 0;
     haveSub = false;
+    opDone = false;
+    operating = false;
+
 }
  //functionality for 0, AC, C
 buttons[16].addEventListener('click', () => {
@@ -108,22 +112,46 @@ buttons[1].addEventListener('click', () => {
 });
 
 //functionality for operation buttons
-//add
-let dispValue;
+let firstVal;
+let secondVal;
 let operation;
+let operating = false;
+let nowOp = false;
+let haveEqualed = false;
+
+//add
 buttons[3].addEventListener('click', () => {
-    dispValue = display.innerText;
-    clearDisplay();
-    operation = "add";
+    if (operating) {
+        nowOp = true;
+        secondVal = display.innerText;
+        operate(firstVal, secondVal,operation);
+    } else {
+        operating = true;
+        operation = "add";
+        firstVal = display.innerText;
+        nowOp = true;
+    }
+    
 });
 
 //sub
-let subber;
-let haveSub = false;
+// let subber;
+// let haveSub = false;
 buttons[7].addEventListener('click', () => {
-    dispValue = display.innerText;
-    clearDisplay();
-    operation = "sub";
+    // dispValue = display.innerText;
+    // clearDisplay();
+    // operation = "sub";
+    if (operating) {
+        nowOp = true;
+        secondVal = display.innerText;
+        operate(firstVal, secondVal,operation);
+    } else {
+        operating = true;
+        operation = "sub";
+        firstVal = display.innerText;
+        nowOp = true;
+        console.log(firstVal);
+    }
 });
 
 //mult
@@ -136,26 +164,51 @@ buttons[11].addEventListener('click', () => {
 //equal
 //doesnt work for chained operations yet maybe work into seperate function?
 buttons[18].addEventListener('click', () => {
+    if (!haveEqualed) {
+        secondVal = display.innerText;
+        haveEqualed = true;
+    }
+    
+    console.log("equal x:" + firstVal);
+    console.log("equal y: " + secondVal);
+    operate(firstVal,secondVal,operation);
+    operating = false;
+    console.log(operation);
+    // secondVal = firstVal;
+    // firstVal = display.innerText;
+    // operate(secondVal,firstVal,operation);
+});
+
+function operate(x,y,operation) {
     switch(operation) {
         case "add":
-            const sum = add(dispValue,display.innerText);
+            const sum = add(x,y);
+            // console.log(x);
+            // console.log(y);
             display.innerText = sum; 
+            firstVal = sum;
             break;
 
         case "sub":
+            console.log("sub x:" + x);
+            console.log("sub y: " + y);
+            const diff = sub(x,y);
+            display.innerText = diff;
+            firstVal = diff;
+            break;
             //issue is subber is reintialized to innertext everytime
-            if (haveSub) {
-                dispValue = display.innerText;
-                const diff = sub(dispValue,subber);
-                display.innerText = diff;
-                break;
-            } else {
-                subber = display.innerText;  
-                const diff = sub(dispValue,subber);
-                display.innerText = diff;
-                haveSub = true;
-                break;  
-            }
+            // if (haveSub) {
+            //     dispValue = display.innerText;
+            //     const diff = sub(dispValue,subber);
+            //     display.innerText = diff;
+            //     break;
+            // } else {
+            //     subber = display.innerText;  
+            //     const diff = sub(dispValue,subber);
+            //     display.innerText = diff;
+            //     haveSub = true;
+            //     break;  
+            // }
 
         case "mult":
             //multiplies by first value not second everytime
@@ -169,10 +222,5 @@ buttons[18].addEventListener('click', () => {
             display.innerText = sum; 
             break;
     }
-    
-});
-
-// function operate() {
-
-// }
+}
 
