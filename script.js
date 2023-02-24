@@ -54,8 +54,6 @@ function add(x, y) {
 function sub(x, y) {
     x = +x;
     y = +y;
-    console.log(x);
-    console.log(y);
     return x - y;
 }
 
@@ -71,6 +69,12 @@ function div(x, y) {
     return x / y;
 }
 
+function mod(x,y) {
+    x = +x;
+    y = +y;
+    return x % y;
+}
+
 //updating display with button presses
 function updateDisplay(x) {
     if (nowOp) {
@@ -84,6 +88,7 @@ function updateDisplay(x) {
     }
 }
 
+//update with other states
 function delDisplay() {
     let disp = display.innerText;
     disp = Math.floor(disp / 10);
@@ -95,8 +100,9 @@ function clearDisplay() {
     display.innerText = 0;
     operating = false;
     haveEqualed = false;
+    nowOp = false;
 }
- //functionality for 0, AC, C
+ //functionality for 0, AC, C, .
 buttons[16].addEventListener('click', () => {
     updateDisplay(buttons[16].innerText);
 });
@@ -105,8 +111,13 @@ buttons[0].addEventListener('click', () => {
     clearDisplay();
 });
 
+
 buttons[1].addEventListener('click', () => {
     delDisplay();
+});
+
+buttons[17].addEventListener('click', () => {
+    updateDisplay(buttons[17].innerText);
 });
 
 //functionality for operation buttons
@@ -133,22 +144,15 @@ buttons[3].addEventListener('click', () => {
 });
 
 //sub
-// let subber;
-// let haveSub = false;
 buttons[7].addEventListener('click', () => {
-    // dispValue = display.innerText;
-    // clearDisplay();
-    // operation = "sub";
     if (operating) {
         nowOp = true;
         secondVal = display.innerText;
         operate(firstVal, secondVal,operation);
     } else {
         operating = true;
-        
         firstVal = display.innerText;
         nowOp = true;
-        console.log(firstVal);
     }
     operation = "sub";
 });
@@ -161,14 +165,13 @@ buttons[11].addEventListener('click', () => {
         operate(firstVal, secondVal,operation);
     } else {
         operating = true;
-       
         firstVal = display.innerText;
         nowOp = true;
-        console.log(firstVal);
     }
     operation = "mult";
 });
 
+//div
 buttons[15].addEventListener('click', () => {
     if (operating) {
         nowOp = true;
@@ -176,53 +179,51 @@ buttons[15].addEventListener('click', () => {
         operate(firstVal, secondVal,operation);
     } else {
         operating = true;
-       
         firstVal = display.innerText;
         nowOp = true;
-        console.log(firstVal);
     }
     operation = "div";
 });
 
+//mod
+buttons[2].addEventListener('click', () => {
+    if (operating) {
+        nowOp = true;
+        secondVal = display.innerText;
+        operate(firstVal, secondVal,operation);
+    } else {
+        operating = true;
+        firstVal = display.innerText;
+        nowOp = true;
+    }
+    operation = "mod";
+});
+
 //equal
-//doesnt work for chained operations yet maybe work into seperate function?
 buttons[18].addEventListener('click', () => {
     if (!haveEqualed) {
         secondVal = display.innerText;
         haveEqualed = true;
     }
-    
-    console.log("equal x:" + firstVal);
-    console.log("equal y: " + secondVal);
     operate(firstVal,secondVal,operation);
     operating = false;
-    console.log(operation);
-    // secondVal = firstVal;
-    // firstVal = display.innerText;
-    // operate(secondVal,firstVal,operation);
 });
 
 function operate(x,y,operation) {
     switch(operation) {
         case "add":
             const sum = add(x,y);
-            // console.log(x);
-            // console.log(y);
             display.innerText = sum; 
             firstVal = sum;
             break;
 
         case "sub":
-            console.log("sub x:" + x);
-            console.log("sub y: " + y);
             const diff = sub(x,y);
             display.innerText = diff;
             firstVal = diff;
             break;
 
         case "mult":
-            //multiplies by first value not second everytime
-            //use have sub and subber again?
             const prod = mult(x,y);
             display.innerText = prod; 
             firstVal = prod;
@@ -232,6 +233,12 @@ function operate(x,y,operation) {
             const divisor = div(x,y);
             display.innerText = divisor; 
             firstVal = divisor;
+            break;
+
+        case "mod":
+            const remainder = mod(x,y);
+            display.innerText = remainder; 
+            firstVal = remainder;
             break;
     }
 }
