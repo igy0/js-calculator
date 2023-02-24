@@ -93,10 +93,8 @@ function delDisplay() {
 function clearDisplay() {
     // display.innerText = "\u00A0"; 
     display.innerText = 0;
-    haveSub = false;
-    opDone = false;
     operating = false;
-
+    haveEqualed = false;
 }
  //functionality for 0, AC, C
 buttons[16].addEventListener('click', () => {
@@ -127,11 +125,11 @@ buttons[3].addEventListener('click', () => {
         operate(firstVal, secondVal,operation);
     } else {
         operating = true;
-        operation = "add";
+        
         firstVal = display.innerText;
         nowOp = true;
     }
-    
+    operation = "add";
 });
 
 //sub
@@ -147,18 +145,43 @@ buttons[7].addEventListener('click', () => {
         operate(firstVal, secondVal,operation);
     } else {
         operating = true;
-        operation = "sub";
+        
         firstVal = display.innerText;
         nowOp = true;
         console.log(firstVal);
     }
+    operation = "sub";
 });
 
 //mult
 buttons[11].addEventListener('click', () => {
-    dispValue = display.innerText;
-    clearDisplay();
+    if (operating) {
+        nowOp = true;
+        secondVal = display.innerText;
+        operate(firstVal, secondVal,operation);
+    } else {
+        operating = true;
+       
+        firstVal = display.innerText;
+        nowOp = true;
+        console.log(firstVal);
+    }
     operation = "mult";
+});
+
+buttons[15].addEventListener('click', () => {
+    if (operating) {
+        nowOp = true;
+        secondVal = display.innerText;
+        operate(firstVal, secondVal,operation);
+    } else {
+        operating = true;
+       
+        firstVal = display.innerText;
+        nowOp = true;
+        console.log(firstVal);
+    }
+    operation = "div";
 });
 
 //equal
@@ -196,30 +219,19 @@ function operate(x,y,operation) {
             display.innerText = diff;
             firstVal = diff;
             break;
-            //issue is subber is reintialized to innertext everytime
-            // if (haveSub) {
-            //     dispValue = display.innerText;
-            //     const diff = sub(dispValue,subber);
-            //     display.innerText = diff;
-            //     break;
-            // } else {
-            //     subber = display.innerText;  
-            //     const diff = sub(dispValue,subber);
-            //     display.innerText = diff;
-            //     haveSub = true;
-            //     break;  
-            // }
 
         case "mult":
             //multiplies by first value not second everytime
             //use have sub and subber again?
-            const prod = mult(dispValue,display.innerText);
+            const prod = mult(x,y);
             display.innerText = prod; 
+            firstVal = prod;
             break;
 
         case "div":
-            const div = add(dispValue,display.innerText);
-            display.innerText = sum; 
+            const divisor = div(x,y);
+            display.innerText = divisor; 
+            firstVal = divisor;
             break;
     }
 }
